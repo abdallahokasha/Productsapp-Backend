@@ -13,8 +13,6 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.connect(mongoDB);
 
-// mongoose.connect(mongoDB, { useNewUrlParser: true }, {'useFindAndModify': false});
-
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
