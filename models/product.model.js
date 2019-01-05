@@ -9,6 +9,5 @@ let ProductSchema = new Schema({
     category: [{ id: Number, name: String, require: false}],
 });
 
-
 // Export the model
 module.exports = mongoose.model('Product', ProductSchema);

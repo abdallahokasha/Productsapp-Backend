@@ -1,5 +1,6 @@
 const Product = require('../models/product.model');
 
+var allProductsList = [];
 //Simple version, without validation or sanitation
 exports.test = function (req, res) {
     res.send('Greetings from the Test controller!');
@@ -16,7 +17,6 @@ exports.product_create = function (req, res, next) {
             image: req.body.image
         }
     );
-
     product.save(function (err) {
         if (err) {
             return next(err);
@@ -24,3 +24,37 @@ exports.product_create = function (req, res, next) {
         res.send('Product Created successfully')
     })
 };
+
+exports.product_details = function (req, res, next) {
+    Product.findById(req.params.id, function (err, product) {
+        if (err) return next(err);
+        res.send(product);
+    })
+};
+
+exports.product_update = function (req, res, next) {
+    Product.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err, product) {
+        if (err) return next(err);
+        //product_list();
+        res.send('Product udpated.');
+    });
+};
+
+exports.product_delete = function (req, res, next) {
+    Product.findByIdAndRemove(req.params.id, function (err) {
+        if (err) return next(err);
+        res.send('Deleted successfully!');
+    })
+};
+
+exports.product_list = function(req, res) {
+    Product.find({}, function(err, products) {
+      var productMap = {};
+  
+      products.forEach(function(products) {
+        productMap[products._id] = products;
+      });
+      allProductsList = productMap;
+      res.send(productMap); 
+    });
+  };
