@@ -61,3 +61,18 @@ exports.product_list = function (req, res) {
         res.send(productMap);
     });
 };
+
+exports.product_search =  function(req, res){
+    // var regex = new RegExp(req.query.key, 'i');  // 'i' makes it case insensitive
+    // return Questions.find({text: regex}, function(err,q){
+    //     return res.send(q);
+    // });
+    Product.find({name: req.query.name}, {brand: req.query.brand}, {price: req.query.price}, function (err, products) {
+        var productMap = {};
+
+        products.forEach(function (products) {
+            productMap[products._id] = products;
+        });
+        res.send(productMap);
+    });
+};
