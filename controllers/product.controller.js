@@ -67,7 +67,8 @@ exports.product_search = function (req, res, next) {
         $or: [
             { name: req.query.name },
             { brand: req.query.brand },
-            { price: req.query.price }
+            { price: req.query.price },
+            //{category:  {name:[req.query.cat_name]}},
         ]
     }, function (err, products) {
         if (err) return next(err);

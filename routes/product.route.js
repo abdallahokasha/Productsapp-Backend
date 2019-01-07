@@ -3,15 +3,22 @@ const cors = require('cors');
 const router = express.Router();
 const product_controller = require('../controllers/product.controller');
 
-// a simple test url to check that all of our files are communicating correctly.
 
-// router.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-//   });
+//router.use(cors());
 
-router.use(cors());
+// Set up a whitelist and check against it
+var whitelist = ['https://products-fb1dc.firebaseapp.com', 'http://localhost:3000']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+// Then pass them to cors
+router.use(cors(corsOptions));
 
 router.get('/list', product_controller.product_list);
 router.get('/:id', product_controller.product_details);
